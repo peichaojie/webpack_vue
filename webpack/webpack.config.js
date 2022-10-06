@@ -2,69 +2,78 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const json5 = require('json5');
 module.exports = {
-    entry: path.join(__dirname,"../index.js"),
+    entry: path.join(__dirname, '../index.js'),
     output: {
-        filename: "bundle.js",
+        filename: 'bundle.js',
         path: path.resolve(__dirname, '../dist'),
-        assetModuleFilename:"images/[contenthash][ext]"
+        assetModuleFilename: 'images/[contenthash][ext]'
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.join(__dirname,"../index.html"),
-            filename: "index.html",
-            inject:'head'
+            template: path.join(__dirname, '../index.html'),
+            filename: 'index.html',
+            inject: 'head'
         })
     ],
     devServer: {
-        static: "../dist",
+        static: '../dist',
         hot: true,
         port: '3000',
-        historyApiFallback: true, 
-        liveReload:true
+        historyApiFallback: true,
+        liveReload: true
     },
     module: {
         rules: [
             {
                 test: /\.css$/,
                 exclude: /node_modules/,
-                use:['style-loader','css-loader']
+                use: ['style-loader', 'css-loader', 'postcss-loader']
             },
             {
                 test: /\.less$/,
                 exclude: /node_modules/,
-                use:['style-loader','css-loader','less-loader']
+                use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader']
             },
             {
                 test: /\.(png|jpg|jpeg|gif)$/,
                 exclude: /node_modules/,
-                type: "asset",
-                parser:{
-                    dataUrlCondition:{
-                        maxSize:1*1024*1024
+                type: 'asset',
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 1 * 1024 * 1024
                     }
                 }
             },
             {
                 test: /\.json5$/,
                 exclude: /node_modules/,
-                type:"json",
-                parser:{
-                    parse:json5.parse
+                type: 'json',
+                parser: {
+                    parse: json5.parse
                 }
             },
             {
-                test: /\.js$/,
+                test: /\.(js|ts)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader",
+                    loader: 'babel-loader',
                     options: {
-                        presets: ["@babel/preset-env"],
-                        plugins:[
-                            ["@babel/plugin-transform-runtime"]
-                        ]
+                        presets: ['@babel/preset-env'],
+                        plugins: [['@babel/plugin-transform-runtime']]
                     }
                 }
+            },
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                use:'ts-loader'
             }
         ]
+    },
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, '../src')
+        },
+        extensions: ['.json', '.js', '.vue', '.ts']
     }
-}
+};
