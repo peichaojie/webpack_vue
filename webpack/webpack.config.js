@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const json5 = require('json5');
 module.exports = {
     entry: path.join(__dirname, '../index.js'),
@@ -13,7 +14,8 @@ module.exports = {
             template: path.join(__dirname, '../index.html'),
             filename: 'index.html',
             inject: 'head'
-        })
+        }),
+        new VueLoaderPlugin()
     ],
     devServer: {
         static: '../dist',
@@ -67,12 +69,17 @@ module.exports = {
                 test: /\.ts$/,
                 exclude: /node_modules/,
                 use:'ts-loader'
+            },
+            {
+                test: /\.vue$/,
+                use:"vue-loader"
             }
         ]
     },
     resolve: {
         alias: {
-            '@': path.resolve(__dirname, '../src')
+            '@': path.resolve(__dirname, '../src'),
+            vue: 'vue/dist/vue.esm.js'
         },
         extensions: ['.json', '.js', '.vue', '.ts']
     }
