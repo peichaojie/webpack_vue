@@ -1,15 +1,12 @@
-import { add, minus } from '@/plugin/math.js';
 import Vue from 'vue';
 import App from './App.vue';
-console.log(add(5, 4));
-console.log(minus(5, 4));
-console.log(Array.from(new Set([1, 2, 3])));
-let box = document.createElement('div');
-document.body.appendChild(box);
+
+import router from "@/router/index.js";
+import store from "@/store/index.js";
+let root = document.createElement('div');
+document.body.appendChild(root);
 new Vue({
-    template: '<App></App>',
-    // 引入组件
-    components: {
-        App
-    }
-}).$mount(box);
+    render:h=>h(App),
+    router,
+    store
+}).$mount(root);

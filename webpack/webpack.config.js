@@ -25,8 +25,7 @@ module.exports = {
         liveReload: true
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.css$/,
                 exclude: /node_modules/,
                 use: ['style-loader', 'css-loader', 'postcss-loader']
@@ -57,22 +56,16 @@ module.exports = {
             {
                 test: /\.(js|ts)$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env'],
-                        plugins: [['@babel/plugin-transform-runtime']]
-                    }
-                }
+                use: ['babel-loader']
             },
             {
                 test: /\.ts$/,
                 exclude: /node_modules/,
-                use:'ts-loader'
+                use: 'ts-loader'
             },
             {
                 test: /\.vue$/,
-                use:"vue-loader"
+                use: "vue-loader"
             }
         ]
     },
